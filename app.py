@@ -197,7 +197,20 @@ def make_deck_multilayer(gj_fire: dict, df_points: pd.DataFrame,
                          line_w_fire: int, line_w_alert: int):
     layers = []
 
-    # Incendios: polígonos/líneas
+    # 1. Alertas (polígonos) — PRIMERO
+    if gj_alerts_colored:
+        alerts_layer = pdk.Layer(
+            "GeoJsonLayer", gj_alerts_colored,
+            stroked=True, filled=True, extruded=False,
+            get_line_color=[255,255,255,240],
+            get_fill_color="_color",
+            get_line_width="_line_width",
+            lineWidthMinPixels=line_w_alert,
+            pickable=True, auto_highlight=True,
+        )
+        layers.append(alerts_layer)
+
+    # 2. Incendios: polígonos/líneas — SEGUNDO
     layer_fire = pdk.Layer(
         "GeoJsonLayer", gj_fire,
         stroked=True, filled=True, extruded=False,
@@ -210,7 +223,7 @@ def make_deck_multilayer(gj_fire: dict, df_points: pd.DataFrame,
     )
     layers.append(layer_fire)
 
-    # Incendios: puntos
+    # 3. Incendios: puntos — ÚLTIMO (arriba de todo)
     if not df_points.empty:
         scatter = pdk.Layer(
             "ScatterplotLayer", data=df_points,
@@ -223,6 +236,8 @@ def make_deck_multilayer(gj_fire: dict, df_points: pd.DataFrame,
             get_line_color=[255,255,255,255]
         )
         layers.append(scatter)
+
+    # ...el resto del código igual...
 
     # Alertas (coloreadas)
     if gj_alerts_colored:
