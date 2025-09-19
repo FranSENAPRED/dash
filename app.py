@@ -18,7 +18,7 @@ ALERT_LEVEL_FIELD   = "tipo"     # 'Aviso' | 'Alerta' | 'Alarma'
 
 # ========== Configuración general ==========
 st.set_page_config(page_title="UAT - Incendios + Alertas (Tiempo real)", layout="wide")
-st.title("🛰️ UAT — Incendios Forestales + Alertas Meteorológicas (Tiempo real)")
+st.title("🛰️ UAT — Incendios Forestales + Alertas Meteorológicas.")
 
 # ---------- Sidebar: Incendios ----------
 st.sidebar.header("Cobertura de Incendios")
